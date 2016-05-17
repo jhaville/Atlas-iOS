@@ -69,6 +69,7 @@ static NSDateFormatter *ATLShortTimeFormatter()
 @property (nonatomic) UILabel *lastMessageLabel;
 @property (nonatomic) UIView *unreadMessageIndicator;
 @property (nonatomic) UIImageView *chevronIconView;
+@property (nonatomic) UILabel *expiryTimeLabel;
 
 @end
 
@@ -80,6 +81,7 @@ static CGFloat const ATLLastMessageLabelRightPadding = 16;
 static CGFloat const ATLConversationTitleLabelRightPadding = 2.0f;
 static CGFloat const ATLUnreadMessageCountLabelSize = 14.0f;
 static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
+static CGFloat const ATLExpiryTimeLabelSize = 25.0f;
 
 + (void)initialize
 {
@@ -153,7 +155,17 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     _unreadMessageIndicator.translatesAutoresizingMaskIntoConstraints = NO;
     _unreadMessageIndicator.backgroundColor = _unreadMessageIndicatorBackgroundColor;
     [self.contentView addSubview:_unreadMessageIndicator];
-    
+  
+    _expiryTimeLabel = [[UILabel alloc]init];
+    _expiryTimeLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _expiryTimeLabel.textAlignment = NSTextAlignmentCenter;
+    _expiryTimeLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:10.0f];
+    _expiryTimeLabel.textColor = [UIColor whiteColor];
+    _expiryTimeLabel.backgroundColor = [UIColor colorWithRed:0.0f/255.0f green:136.0f/255.0f blue:170.0f/255.0f alpha:1];
+    _expiryTimeLabel.clipsToBounds = YES;
+    _expiryTimeLabel.layer.cornerRadius = 25/2;
+    [self.contentView addSubview:_expiryTimeLabel];
+  
     _chevronIconView = [[UIImageView alloc] init];
     _chevronIconView.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -166,6 +178,7 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     [self configureDateLabelLayoutContstraints];
     [self configureLastMessageLayoutConstraints];
     [self configureUnreadMessageIndicatorLayoutConstraints];
+    [self configureExpiryTimeLabelLayoutConstraints];
     [self configureChevronIconViewConstraints];
 }
 
@@ -261,6 +274,7 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
 - (void)presentConversation:(LYRConversation *)conversation
 {
     self.dateLabel.text = [self dateLabelForLastMessage:conversation.lastMessage];
+    self.expiryTimeLabel.text = [self expiryTimeLabel:conversation.metadata[@"expiryTime"]];
     [self updateUnreadMessageIndicatorWithConversation:conversation];
 }
 
@@ -318,6 +332,34 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     }
 }
 
+- (NSString *)expiryTimeLabel:(NSString *)expiryTime{
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSSZ"];
+  NSDate *expiryDateTime = [dateFormatter dateFromString:expiryTime];
+  NSDate *currentTime = [NSDate date];
+  
+  NSCalendar *gregorian = [[NSCalendar alloc]
+                           initWithCalendarIdentifier:NSGregorianCalendar];
+  
+  NSUInteger unitFlags = NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+  
+  NSDateComponents *components = [gregorian components:unitFlags
+                                              fromDate:currentTime
+                                                toDate:expiryDateTime options:0];
+  NSInteger hours = [components hour];
+  NSInteger minutes = [components minute];
+  NSInteger seconds = [components second];
+  
+  if (hours < 1){
+    if (minutes < 1){
+      return @"";
+    }
+    return [NSString stringWithFormat:@"%dm",minutes];
+  }
+  
+  return [NSString stringWithFormat:@"%dh",hours];
+}
+
 - (void)configureConversationImageViewLayoutContraints
 {
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.conversationImageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeHeight multiplier:0.6 constant:0]];
@@ -348,6 +390,13 @@ static CGFloat const ATLChevronIconViewRightPadding = 14.0f;
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeRight multiplier:1.0 constant:-ATLLastMessageLabelRightPadding]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.lastMessageLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-8]];
+}
+
+- (void)configureExpiryTimeLabelLayoutConstraints{
+  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLExpiryTimeLabelSize]];
+  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLExpiryTimeLabelSize]];
+  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-8]];
+  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:45]];
 }
 
 - (void)configureUnreadMessageIndicatorLayoutConstraints
