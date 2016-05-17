@@ -30,7 +30,6 @@
 /// @name Delegate
 ///---------------------------------------
 
-NS_ASSUME_NONNULL_BEGIN
 @protocol ATLConversationListViewControllerDelegate <NSObject>
 
 /**
@@ -284,4 +283,3 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reloadCellForConversation:(LYRConversation *)conversation;
 
 @end
-NS_ASSUME_NONNULL_END

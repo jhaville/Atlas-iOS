@@ -37,7 +37,6 @@ typedef NS_ENUM(NSUInteger, ATLAvatarItemDisplayFrequency) {
 /// @name Delegate
 ///---------------------------------------
 
-NS_ASSUME_NONNULL_BEGIN
 @protocol ATLConversationViewControllerDelegate <NSObject>
 
 @optional
@@ -299,4 +298,3 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) ATLAvatarItemDisplayFrequency avatarItemDisplayFrequency;
 
 @end
-NS_ASSUME_NONNULL_END
