@@ -302,6 +302,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     if (!lastMessageText) {
         lastMessageText = [self defaultLastMessageTextForConversation:conversation];
     }
+    conversationCell.selectionStyle = UITableViewCellSelectionStyleNone;
     [conversationCell updateWithLastMessageText:lastMessageText];
 }
 
