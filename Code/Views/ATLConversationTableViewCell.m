@@ -396,7 +396,7 @@ static CGFloat const ATLExpiryTimeLabelSize = 25.0f;
   [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLExpiryTimeLabelSize]];
   [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:ATLExpiryTimeLabelSize]];
   [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeLeft multiplier:1.0 constant:-8]];
-  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:45]];
+  [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.expiryTimeLabel attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self.conversationTitleLabel attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:40]];
 }
 
 - (void)configureUnreadMessageIndicatorLayoutConstraints
