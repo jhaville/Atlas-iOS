@@ -249,6 +249,8 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         return;
     }
     [self.tableView reloadData];
+    [self updateEditButton];
+    [self updateBackgroundViewLabel];
 }
 
 #pragma mark - UITableViewDataSource
@@ -473,6 +475,31 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
         }
         self.conversationSelectedBeforeContentChange = nil;
     }
+    [self updateEditButton];
+    [self updateBackgroundViewLabel];
+}
+
+- (void) updateEditButton
+{
+  if ([self.queryController numberOfObjectsInSection:0] == 0) {
+    self.navigationItem.leftBarButtonItem = nil;
+  } else {
+    self.navigationItem.leftBarButtonItem = self.editButtonItem;
+  }
+}
+
+- (void)updateBackgroundViewLabel
+{
+  if ([self.queryController numberOfObjectsInSection:0] == 0) {
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, self.tableView.bounds.size.height)];
+    label.text = @"No connections";
+    label.textColor = [UIColor lightGrayColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:18.0f];
+    self.tableView.backgroundView = label;
+  } else {
+    self.tableView.backgroundView = nil;
+  }
 }
 
 #pragma mark - UISearchDisplayDelegate
