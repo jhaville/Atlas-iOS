@@ -36,7 +36,7 @@ typedef NS_ENUM(NSUInteger, ATLAvatarItemDisplayFrequency) {
 ///---------------------------------------
 /// @name Delegate
 ///---------------------------------------
-
+NS_ASSUME_NONNULL_BEGIN
 @protocol ATLConversationViewControllerDelegate <NSObject>
 
 @optional
@@ -112,7 +112,7 @@ typedef NS_ENUM(NSUInteger, ATLAvatarItemDisplayFrequency) {
  @param participantForIdentifier The participant identifier.
  @return An object conforming to the `ATLParticipant` protocol.
  */
-- (id<ATLParticipant>)conversationViewController:(ATLConversationViewController *)conversationViewController participantForIdentity:(LYRIdentity *)identity;
+- (id<ATLParticipant> _Nullable)conversationViewController:(ATLConversationViewController *)conversationViewController participantForIdentity:(LYRIdentity *)identity;
 
 /**
  @abstract Asks the data source for an `NSAttributedString` representation of a given date.
@@ -298,3 +298,4 @@ typedef NS_ENUM(NSUInteger, ATLAvatarItemDisplayFrequency) {
 @property (nonatomic) ATLAvatarItemDisplayFrequency avatarItemDisplayFrequency;
 
 @end
+NS_ASSUME_NONNULL_END

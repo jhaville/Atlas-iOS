@@ -29,7 +29,7 @@
 ///---------------------------------------
 /// @name Delegate
 ///---------------------------------------
-
+NS_ASSUME_NONNULL_BEGIN
 @protocol ATLConversationListViewControllerDelegate <NSObject>
 
 /**
@@ -91,7 +91,7 @@
  @return An object conforming to the `ATLAvatarItem` protocol. 
  @discussion The data provided by the object conforming to the `ATLAvatarItem` protocol will be displayed in an `LYRAvatarImageView`.
  */
-- (id<ATLAvatarItem>)conversationListViewController:(ATLConversationListViewController *)conversationListViewController avatarItemForConversation:(LYRConversation *)conversation;
+- (id<ATLAvatarItem> _Nullable)conversationListViewController:(ATLConversationListViewController *)conversationListViewController avatarItemForConversation:(LYRConversation *)conversation;
 
 /**
  @abstract Asks the data source for the table view cell reuse identifier for a conversation.
@@ -283,3 +283,4 @@
 - (void)reloadCellForConversation:(LYRConversation *)conversation;
 
 @end
+NS_ASSUME_NONNULL_END

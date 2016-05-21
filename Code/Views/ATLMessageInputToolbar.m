@@ -124,11 +124,11 @@ static CGFloat const ATLButtonHeight = 28.0f;
     CGRect rightButtonFrame = self.rightAccessoryButton.frame;
     CGRect textViewFrame = self.textInputView.frame;
 
-    if (!self.leftAccessoryButton) {
+//    if (!self.leftAccessoryButton) {
         leftButtonFrame.size.width = 0;
-    } else {
-        leftButtonFrame.size.width = ATLLeftAccessoryButtonWidth;
-    }
+//    } else {
+//        leftButtonFrame.size.width = ATLLeftAccessoryButtonWidth;
+//    }
     
     // This makes the input accessory view work with UISplitViewController to manage the frame width.
     if (self.containerViewController) {
