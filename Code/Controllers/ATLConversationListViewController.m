@@ -495,7 +495,7 @@ NSString *const ATLConversationListViewControllerDeletionModeEveryone = @"Everyo
     label.text = @"No connections";
     label.textColor = [UIColor lightGrayColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont fontWithName:@"PingFangSC-Regular" size:18.0f];
+    label.font = [UIFont fontWithName:@"HelveticaNeue" size:18.0f];
     self.tableView.backgroundView = label;
   } else {
     self.tableView.backgroundView = nil;
